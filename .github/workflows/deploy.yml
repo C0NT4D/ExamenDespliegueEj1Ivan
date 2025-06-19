@@ -58,6 +58,6 @@ jobs:
           rsync -avz --delete --no-t --exclude 'test' --exclude '.git' --chown=$USERNAME:$USERNAME --no-implied-dirs . $USERNAME@$HOST:$DEPLOY_PATH
           ssh -o StrictHostKeyChecking=no $USERNAME@$HOST "sudo apt-get update && sudo apt-get install -y php-xml"
           ssh -o StrictHostKeyChecking=no $USERNAME@$HOST "cd $DEPLOY_PATH && composer install"
-          ssh -o StrictHostKeyChecking=no $USERNAME@$HOST "cd $DEPLOY_PATH && ./vendor/bin/phpunit --bootstrap vendor/autoload.php test"
+          ssh -o StrictHostKeyChecking=no $USERNAME@$HOST "cd $DEPLOY_PATH && ./vendor/bin/phpunit --bootstrap vendor/autoload.php test/"
           ssh -o StrictHostKeyChecking=no $USERNAME@$HOST "cd $DEPLOY_PATH && composer install --no-dev --optimize-autoloader"
           ssh -o StrictHostKeyChecking=no $USERNAME@$HOST "sudo systemctl restart apache2"
