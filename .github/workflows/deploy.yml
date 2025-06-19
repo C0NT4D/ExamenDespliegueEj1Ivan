@@ -45,10 +45,10 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
-          mkdir -p ~/.ssh
+          mkdir -p ~/.ssh || true
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh -o StrictHostKeyChecking=no $USERNAME@$HOST "mkdir -p $DEPLOY_PATH"
+          ssh -o StrictHostKeyChecking=no $USERNAME@$HOST "mkdir -p $DEPLOY_PATH || true"
           rsync -avz --delete --no-t --exclude 'test' --exclude '.git' . $USERNAME@$HOST:$DEPLOY_PATH
           ssh -o StrictHostKeyChecking=no $USERNAME@$HOST "cd $DEPLOY_PATH && composer install --no-dev --optimize-autoloader"
           ssh -o StrictHostKeyChecking=no $USERNAME@$HOST "cd $DEPLOY_PATH && ./vendor/bin/phpunit --bootstrap vendor/autoload.php test"
